@@ -1,12 +1,11 @@
 "use client";
 import { navItems, navRightItems } from "../utils/navigation";
-import { useRouter, usePathname } from "next/navigation";
+import {  usePathname } from "next/navigation";
 import { X, Menu } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function NavBar() {
-  const router = useRouter();
   const pathName = usePathname();
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
   const toggleNavBar = () => setMobileNavOpen(!mobileNavOpen);

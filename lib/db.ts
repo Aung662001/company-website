@@ -17,14 +17,14 @@ export async function createOrder(data: OrderData) {
     prisma.$connect();
     const order = await prisma.order.create({
       data: {
-        hospital_name:' data.hospital_name',
-        contact_person_name: 'data.contact_person_name',
-        phone: 'data.phone',
-        email: 'data.email',
-        hospital_address: 'data.hospital_address',
-        order_type_id: 1,
-        order_type_name: 'data.order_type.name',
-        total_charge: 2,
+        hospital_name: data.hospital_name,
+        contact_person_name: data.contact_person_name,
+        phone: data.phone,
+        email: data.email,
+        hospital_address: data.hospital_address,
+        order_type_id: data.order_type_id,
+        order_type_name: data.order_type_name,
+        total_charge: data.total_charge,
       },
     });
     return order;

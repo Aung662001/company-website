@@ -2,7 +2,6 @@ import { Lobster } from "next/font/google";
 import benefits from "@/data/benefit.json";
 import company_data from "@/data/company_data.json";
 import MotionDiv from "@/components/MotionDiv";
-import ScrollRevealList from "@/components/ScrollList";
 
 const lobster = Lobster({
   weight: "400",

@@ -1,16 +1,13 @@
 "use client";
 import { Lobster } from "next/font/google";
-import benefits from "@/data/benefit.json";
-import company_data from "@/data/company_data.json";
 import modules from "@/data/product_modules.json";
 import * as fa from "@fortawesome/free-solid-svg-icons";
 import {
   FontAwesomeIcon,
-  FontAwesomeIconProps,
 } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import plans from "@/data/plans.json";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { CartContext } from "@/constext/CartContext";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import MotionDiv from "@/components/MotionDiv";
