@@ -1,101 +1,86 @@
-import Image from "next/image";
+import { Lobster } from "next/font/google";
+import benefits from "@/data/benefit.json";
+import company_data from "@/data/company_data.json";
+import MotionDiv from "@/components/MotionDiv";
+import ScrollRevealList from "@/components/ScrollList";
+
+const lobster = Lobster({
+  weight: "400",
+  subsets: ["cyrillic-ext"],
+});
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div>
+      <div className="hidden md:hidden lg:flex">
+        <h2
+          className={`${lobster.className} mt-4 w-full text-transparent bg-gradient-to-b to-purple-400
+           from-yellow-500 text-center bg-clip-text text-6xl relative right-28`}
+        >
+          Software for Your
+          <span className="absolute top-2 text-7xl bg-gradient-to-tr from-purple-600 to-yellow-600 bg-clip-text">
+            &nbsp;Business!
+          </span>
+        </h2>
+      </div>
+      <div className="lg:hidden flex items-center justify-center">
+        <h2
+          className={`${lobster.className} flex flex-col mt-4 gap-2 text-transparent bg-gradient-to-br to-purple-400
+           from-yellow-700 text-center bg-clip-text text-4xl relative`}
+        >
+          Software for
+          <span
+            className="bg-gradient-to-br bg-clip-text  to-purple-500
+           from-yellow-700"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Your
+          </span>
+          <span
+            className=" text-5xl bg-gradient-to-br bg-clip-text  to-purple-500
+           from-yellow-800"
           >
-            Read our docs
-          </a>
+            Bussiness!
+          </span>
+        </h2>
+      </div>
+      <MotionDiv>
+        <p className="text-blue-500 mt-12 max-w-[70%] m-auto text-center">
+          {company_data.ambition}
+        </p>
+      </MotionDiv>
+      <div className="py-10 bg-gray-50">
+        <h2 className="text-3xl font-bold text-center text-blue-900 mb-8">
+          ကျွန်ုပ်တို့၏ စနစ်၏ အဓိက လုပ်ဆောင်ချက်များ
+        </h2>
+        <div className="text-center mb-8">
+          <button
+            className="bg-blue-500 px-4 py-2 rounded-sm text-3xl bg-gradient-to-tr 
+          from-cyan-400 to-blue-400 text-slate-600 hover:scale-105 transition-all duration-500 hover:shadow-2xl"
+          >
+            Check Now
+          </button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="container mx-auto px-4" id="benefits">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {benefits.map((benefit, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300"
+              >
+                <MotionDiv>
+                  <div className="lg:text-5xl text-4xl text-blue-500 mb-4">
+                    {benefit.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold text-blue-900 mb-2">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-gray-600">{benefit.description}</p>
+                </MotionDiv>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
