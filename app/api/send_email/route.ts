@@ -1,6 +1,5 @@
 // app/api/send_email/route.ts
 import { NextResponse } from "next/server";
-import { SMTPClient } from "emailjs";
 import { createOrder } from "@/lib/db";
 import {sendEmail} from "@/lib/email"
 
