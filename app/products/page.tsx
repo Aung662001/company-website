@@ -2,13 +2,11 @@
 import { Lobster } from "next/font/google";
 import modules from "@/data/product_modules.json";
 import * as fa from "@fortawesome/free-solid-svg-icons";
-import {
-  FontAwesomeIcon,
-} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import plans from "@/data/plans.json";
 import { useRouter } from "next/navigation";
-import { CartContext } from "@/constext/CartContext";
+import { CartContext } from "@/context/CartContext";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import MotionDiv from "@/components/MotionDiv";
 import { motion } from "framer-motion";
@@ -71,14 +69,27 @@ export default function Home() {
     });
   };
   const calculateTotal = (orders: Order[] | undefined) => {
-    console.log(orders);
-    if (!orders) return;
+    if (!orders) {
+      setTotal(0);
+      return;
+    }
     let total = 0;
     orders.length &&
       orders?.forEach((o) => {
         total = total + o.price;
       });
     setTotal(total);
+    setToLocal("monicare_hms_orders", {
+      orders: [...orders],
+      total_charge: total,
+    });
+  };
+  const setToLocal = (name: string, item: any) => {
+    if (item) {
+      localStorage.setItem(name, JSON.stringify(item));
+    } else {
+      localStorage.removeItem(name);
+    }
   };
   const changePlan = (event: ChangeEvent<HTMLSelectElement>) => {
     let plan_id = parseInt(event.target.value);
@@ -112,28 +123,31 @@ export default function Home() {
     window.scrollTo(0, 0);
   };
   const removeItemFromCart = (order: Order) => {
-    setOrders(orders?.filter((o) => o.id !== order.id));
+    let filtered_order = orders?.filter((o) => o.id !== order.id);
+    setOrders(filtered_order);
+    calculateTotal(filtered_order);
   };
   const setOrdersConfirm = () => {
     if (orders) {
       setCartItems({ ...orders });
-      localStorage.setItem(
-        "monicare_hms_orders",
-        JSON.stringify({ orders: [...orders], total_charge: total })
-      );
+      calculateTotal(orders);
       router.push("/orders");
     }
   };
   useEffect(() => {
-    if (typeof window != "undefined") {
-      let json = localStorage.getItem("monicare_hms_orders");
-      if (json) {
-        let data = JSON.parse(json);
-        setOrders(data.orders);
-        calculateTotal(data.orders);
-      }
-    }
-  }, [window]);
+    const fetchOrdersFromLocalStorage = () => {
+      if (typeof window === "undefined") return;
+
+      const json = localStorage.getItem("monicare_hms_orders");
+      if (!json) return;
+
+      const data = JSON.parse(json);
+      setOrders(data.orders);
+      calculateTotal(data.orders);
+    };
+
+    fetchOrdersFromLocalStorage();
+  }, []);
   return (
     <div className="mx-10 relative mb-10">
       {/* page hero */}
@@ -315,7 +329,11 @@ export default function Home() {
                 </button>
                 <button
                   className="px-3 py-2 rounded-lg bg-red-500"
-                  onClick={() => setOrders([])}
+                  onClick={() => {
+                    setOrders([]);
+                    localStorage.removeItem("monicare_hms_orders");
+                    calculateTotal(undefined);
+                  }}
                 >
                   Clear Cart
                 </button>

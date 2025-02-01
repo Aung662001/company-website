@@ -1,27 +1,36 @@
-import { OrderFormData } from "@/utils/types";
 import React from "react";
-import {
-  UseFormRegister,
-  FieldErrors,
-} from "react-hook-form";
-interface useFormTypes {
-  register: UseFormRegister<OrderFormData>;
-  errors: FieldErrors<OrderFormData>;
-  name: keyof OrderFormData;
+import { UseFormRegister, FieldErrors, Path } from "react-hook-form";
+
+// Define a generic interface for the props
+import { FieldValues } from "react-hook-form";
+
+interface UseFormTypes<T extends FieldValues> {
+  register: UseFormRegister<T>;
+  errors: FieldErrors<T>;
+  name: keyof T;
   label: string;
-  rule?:object
+  rule?: object;
 }
-const Input = ({ register, errors, name, label,rule={} }: useFormTypes) => {
+
+const Input = <T extends object>({
+  register,
+  errors,
+  name,
+  label,
+  rule = {},
+}: UseFormTypes<T>) => {
   return (
-    <div className="flex flex-col my-4 gap-1 text-cyan-600 ">
-      <label>{label}{''}</label>
+    <div className="flex flex-col gap-1 text-cyan-600">
+      <label>{label}</label>
       <input
-        {...register(name,rule)}
+        {...register(name as string as Path<T>, rule)}
         className={`${
-            errors[name] ? "border-red-400" : "border-cyan-300"
+          errors[name] as any ? "border-red-400" : "border-cyan-300"
         } border-2 h-9 pl-2`}
       />
-        <p className="text-sm italic text-red-600">{errors[name]?.message}</p>
+      <p className="text-sm italic text-red-600">
+        {errors[name]?.message as string} 
+      </p>
     </div>
   );
 };

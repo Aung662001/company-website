@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = "mongodb+srv://setannatsoegodzzz:QlxZ6VpWjnS70hwW@cluster0.lofgo.mongodb.net/myDatabase?retryWrites=true&w=majority"
+  url      = env("MONGODB_URI")
 }
 
 model Order {
@@ -24,4 +24,13 @@ model Order {
   order_type_name     String
   total_charge        Float
   createdAt           DateTime @default(now())
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  password  String
+  role      String
+  createdAt DateTime @default(now())
 }

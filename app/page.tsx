@@ -1,7 +1,9 @@
+"use client";
 import { Lobster } from "next/font/google";
 import benefits from "@/data/benefit.json";
 import company_data from "@/data/company_data.json";
 import MotionDiv from "@/components/MotionDiv";
+import { motion } from "framer-motion";
 
 const lobster = Lobster({
   weight: "400",
@@ -62,20 +64,21 @@ export default function Home() {
         <div className="container mx-auto px-4" id="benefits">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {benefits.map((benefit, index) => (
-              <div
+              <motion.div
                 key={index}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
                 className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300"
               >
-                <MotionDiv>
-                  <div className="lg:text-5xl text-4xl text-blue-500 mb-4">
-                    {benefit.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold text-blue-900 mb-2">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-gray-600">{benefit.description}</p>
-                </MotionDiv>
-              </div>
+                <div className="lg:text-5xl text-4xl text-blue-500 mb-4">
+                  {benefit.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-blue-900 mb-2">
+                  {benefit.title}
+                </h3>
+                <p className="text-gray-600">{benefit.description}</p>
+              </motion.div>
             ))}
           </div>
         </div>

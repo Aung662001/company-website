@@ -1,15 +1,14 @@
 "use client";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
-import { CartContext } from "@/constext/CartContext";
+import { CartContext } from "@/context/CartContext";
 import { OrderFormData } from "@/utils/types";
-import { ValueOf } from "next/dist/shared/lib/constants";
-import { format } from "path";
 import React, { useContext, useEffect, useState } from "react";
-import { FieldErrors, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Order } from "../products/page";
 import Divider from "@/components/Divider";
 import Loading from "@/components/loading";
+import { motion } from "framer-motion";
 
 interface FinalOrder {
   orders: Order[];
@@ -81,6 +80,27 @@ const page = () => {
   if (loading) {
     return <Loading loading={loading} />;
   }
+  if (cartItems.length == 0) {
+    return (
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 40,
+        }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.6 }}
+        className="flex flex-col justify-center items-center h-screen gap-4"
+      >
+        <p className="w-[70%] text-center text-xl font-bold text-slate-600">
+          Please chose your desired module that will need in you hospital and
+          come back here to make order.
+        </p>
+        <a href="/products" className=" text-blue-600">
+          Go To Products
+        </a>
+      </motion.div>
+    );
+  }
 
   return (
     <div className="flex flex-col">
@@ -107,9 +127,9 @@ const page = () => {
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="lg:col-span-6 bg-cyan-200 p-10 shadow-lg col-span-10"
+          className="lg:col-span-6 bg-cyan-200 p-10 shadow-lg col-span-10 gap-3"
         >
-          <Input
+          <Input<OrderFormData>
             rule={{
               required: "Hospital name field is required.",
               pattern: {
@@ -123,7 +143,7 @@ const page = () => {
             label={"Hospital Name"}
             errors={errors}
           />
-          <Input
+          <Input<OrderFormData>
             rule={{
               required: "Contact person field is required.",
               pattern: {
@@ -137,7 +157,7 @@ const page = () => {
             label={"Contact Person Name"}
             errors={errors}
           />
-          <Input
+          <Input<OrderFormData>
             rule={{
               required: "Phone number field is required.",
               minLength: {
@@ -154,7 +174,7 @@ const page = () => {
             label={"Phone Number"}
             errors={errors}
           />
-          <Input
+          <Input<OrderFormData>
             rule={{
               required: "Email field is required.",
               minLength: {

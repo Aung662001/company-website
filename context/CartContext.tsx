@@ -5,11 +5,10 @@ import { createContext } from "react";
 export type CartContextType = {
   cartItems: Order[];
   setCartItems: React.Dispatch<React.SetStateAction<Order[]>>;
-  totalCharge:number
+  totalCharge: number;
 };
-
 export const CartContext = createContext<CartContextType>({
   cartItems: [],
   setCartItems: () => {},
-  totalCharge:0
+  totalCharge: 0,
 });

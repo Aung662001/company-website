@@ -4,11 +4,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import NavBar from "@/components/Navbar";
 import { Inter, Roboto_Mono, Poppins } from "next/font/google";
-import { createContext, Suspense, useState } from "react";
+import { useState } from "react";
 import { Order } from "./products/page";
-import { CartContext } from "@/constext/CartContext";
-import Loading from "@/components/loading";
+import { CartContext } from "@/context/CartContext";
 import Head from "next/head";
+import { Provider } from "react-redux";
+import { store } from "@/context/ConfigureStore";
 
 // Configure the font
 const inter = Inter({
@@ -42,10 +43,14 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.png" sizes="any" />
       </Head>
       <body className={`${poppins.className} bg-slate-100 text-gray-700 `}>
-        <CartContext.Provider value={{ cartItems, setCartItems, totalCharge }}>
-          <NavBar />
-          <main>{children}</main>
-        </CartContext.Provider>
+        <Provider store={store}>
+          <CartContext.Provider
+            value={{ cartItems, setCartItems, totalCharge }}
+          >
+            <NavBar />
+            <main>{children}</main>
+          </CartContext.Provider>
+        </Provider>
       </body>
     </html>
   );

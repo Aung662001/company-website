@@ -1,6 +1,24 @@
 import { PrismaClient } from "@prisma/client";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-const prisma = new PrismaClient();
+// const prismaClientSingleton = () => {
+//   return new PrismaClient();
+// };
+
+// type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
+
+// const globalForPrisma = globalThis as unknown as {
+//   prisma: PrismaClientSingleton | undefined;
+// };
+
+// const prisma = globalForPrisma.prisma ?? prismaClientSingleton();
+
+// export default prisma;
+
+// if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+let prisma = new PrismaClient();
+export default prisma ;
 
 export interface OrderData {
   hospital_name: string;
@@ -8,13 +26,13 @@ export interface OrderData {
   phone: string;
   email: string;
   hospital_address: string;
-  order_type_id:number;
-  order_type_name:string;
+  order_type_id: number;
+  order_type_name: string;
   total_charge: number;
 }
 export async function createOrder(data: OrderData) {
   try {
-    prisma.$connect();
+    await prisma.$connect();
     const order = await prisma.order.create({
       data: {
         hospital_name: data.hospital_name,
@@ -28,9 +46,9 @@ export async function createOrder(data: OrderData) {
       },
     });
     return order;
-  } catch (error) {
+  } catch (error:any) {
+    console.log(error.stack)
     throw error;
-  }finally{
-    prisma.$disconnect();
+  } finally {
   }
 }

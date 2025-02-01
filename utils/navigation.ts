@@ -26,4 +26,9 @@ export const navRightItems = [
     icon: "",
     href:"/about"
   },
+  {
+    name:"Dashboard",
+    icon:"",
+    href:"/dashboard"
+  }
 ];
