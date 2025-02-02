@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 
 interface FinalOrder {
   orders: Order[];
-  total_charge: number;
+  total: number;
 }
 const defaultValues = {
   hospital_name: "",
@@ -57,7 +57,7 @@ const page = () => {
       ...data,
       order_type_id: data.order_type.id,
       order_type_name: data.order_type.name,
-      total_charge: order?.total_charge || 0,
+      total_charge: order?.total || 0,
     };
     try {
       const response_json = await fetch("/api/send_email", {
@@ -120,7 +120,7 @@ const page = () => {
           <Divider />
           <div className="flex flex-row justify-between my-4 mx-4">
             <p className="text-xl text-blue-900">Total Charge</p>
-            <p className="text-xl text-blue-900">{order?.total_charge} USD</p>
+            <p className="text-xl text-blue-900">{order?.total} USD</p>
           </div>
           <Divider />
         </div>

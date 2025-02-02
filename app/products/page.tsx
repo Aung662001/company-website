@@ -65,7 +65,12 @@ export default function Home() {
           ? parseInt(item.price2) * 2
           : parseInt(item.price2) * 3;
       let new_order_obj = [...prev, { ...item, plan: selectedPlan, price }];
-      calculateTotal(new_order_obj);
+      let total = calculateTotal(new_order_obj);
+      setToLocal("monicare_hms_orders", {
+        orders: new_order_obj,
+        total: total,
+        plan_id: selectedPlan.id,
+      });
       return new_order_obj;
     });
   };
@@ -136,7 +141,8 @@ export default function Home() {
   const removeItemFromCart = (order: Order) => {
     let filtered_order = orders?.filter((o) => o.id !== order.id);
     setOrders(filtered_order);
-    calculateTotal(filtered_order);
+    let total = calculateTotal(filtered_order);
+    setToLocal("monicare_hms_orders",{orders:filtered_order,total,plan_id:selectedPlan.id})
   };
   const setOrdersConfirm = () => {
     if (orders) {
