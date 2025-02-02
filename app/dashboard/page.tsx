@@ -21,7 +21,8 @@ const columns = [
   },
   {
     name: "Phone",
-    selector: (row: OrderFormData) => (
+    selector: (row: OrderFormData) => row.phone, // Keep selector for sorting/filtering
+    cell: (row: OrderFormData) => (
       <a href={`tel:${row.phone}`} className="text-blue-500">
         {row.phone}
       </a>
@@ -30,7 +31,8 @@ const columns = [
   },
   {
     name: "Email",
-    selector: (row: OrderFormData) => (
+    selector: (row: OrderFormData) => row.email, // Keep selector for sorting/filtering
+    cell: (row: OrderFormData) => (
       <a href={`mailto:${row.email}`} className="text-blue-500">
         {row.email}
       </a>
@@ -49,12 +51,10 @@ const columns = [
   },
   {
     name: "Order Time",
-    selector: (row: any) =>
-      dayjs(row.createdAt).format("DD/MM/YYYY HH:mm:ss A"),
+    selector: (row: any) => dayjs(row.createdAt).format("DD/MM/YYYY HH:mm:ss A"),
     sortable: true,
   },
 ];
-
 const page = () => {
   const { isLogin, role } = useSelector((state: RootState) => state.auth);
   const dispatch: AppDispatch = useDispatch();

@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { login } from "@/context/AuthSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/context/ConfigureStore";
+import {BeatLoader} from "react-spinners";
 import { redirect } from "next/navigation";
 
 const defaultValues = {
@@ -78,7 +79,7 @@ const page = () => {
             className="px-3 py-2 rounded-lg bg-blue-500 text-white"
             disabled={loading}
           >
-            {loading ? "Submitting" : "Submit"}
+            {loading ? <BeatLoader size={10} color="white"/> : "Submit"}
           </button>
         </form>
       </motion.div>
