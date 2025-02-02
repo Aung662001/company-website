@@ -46,6 +46,7 @@ export default function Home() {
     modules[0]
   );
   const router = useRouter();
+  const planRef = useRef(null);
   const [orders, setOrders] = useState<Order[]>(cartItems);
   const [selectedPlan, setSelectedPlan] = useState<Plan>(plans[0]);
   const [total, setTotal] = useState(0);
@@ -155,7 +156,11 @@ export default function Home() {
       const data = JSON.parse(json);
       setOrders(data.orders);
       calculateTotal(data.orders);
-      setSelectedPlan(() => plans.find((p) => p.id == data?.plan_id || 1) as Plan);
+
+      const planFromLocalStorage = plans.find((p) => p.id === data.plan_id);
+      if (planFromLocalStorage) {
+        setSelectedPlan(planFromLocalStorage);
+      }
     };
 
     fetchOrdersFromLocalStorage();
@@ -296,6 +301,7 @@ export default function Home() {
               className="px-6 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
               onChange={changePlan}
               value={selectedPlan?.id || 1}
+              ref={planRef}
             >
               {plans.map((p, i) => (
                 <option key={i} value={p.id}>
