@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     if (user) {
       let match = await bcrypt.compare(data.password, user.password);
       if (match) {
-        return NextResponse.json({ user, status: 200 });
+        return NextResponse.json({ user }, { status: 200 });
       } else {
         return NextResponse.json(
           {
