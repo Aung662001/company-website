@@ -1,7 +1,4 @@
-import {
-  createSlice,
-  createAsyncThunk,
-} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 interface User {
   id: string;
@@ -51,10 +48,10 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredential: (state, action) => {
-      (state.accessToken = action.payload.accessToken || ""),
-        (state.refreshToken = action.payload.refreshToken || ""),
-        (state.user = action.payload.user),
-        (state.isLogin = action.payload.login);
+      state.accessToken = action.payload.accessToken || "";
+      state.refreshToken = action.payload.refreshToken || "";
+      state.user = action.payload.user;
+      state.isLogin = action.payload.login;
       state.role = action.payload.role;
     },
     logout: (state) => {
@@ -66,7 +63,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.fulfilled, (state, action) => {
+    .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.accessToken = action.payload.user.accessToken || "";
         state.refreshToken = action.payload.user.refreshToken || "";

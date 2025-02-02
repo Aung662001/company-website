@@ -8,7 +8,7 @@ import { login } from "@/context/AuthSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/context/ConfigureStore";
 import { BeatLoader } from "react-spinners";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const defaultValues = {
   email: "",
@@ -22,22 +22,23 @@ const LoginPage = () => {
     reset,
     formState: { errors },
   } = useForm<LoginFormData>({ defaultValues: defaultValues });
-
   const dispatch: AppDispatch = useDispatch();
   const { user, loading, isLogin } = useSelector(
     (state: RootState) => state.auth
   );
+  const router = useRouter();
 
   const onSubmit = async (data: LoginFormData) => {
+    // redirect("/products")
     try {
-      const res = await dispatch(login(data)).unwrap();
-      if (res.status === 200) {
-        redirect("/dashboard");
-      }
+      await dispatch(login(data)).unwrap();
+      console.log("redirecting....")
+      router.push("/dashboard");
     } catch (error) {
       console.error("Login failed:", error);
+    }finally{
+      // reset(defaultValues);
     }
-    reset(defaultValues);
   };
 
   return (
@@ -51,10 +52,7 @@ const LoginPage = () => {
         <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">
           Login
         </h1>
-        <form
-          className="flex flex-col gap-4"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           {/* Email Field */}
           <Input<LoginFormData>
             rule={{
@@ -92,11 +90,7 @@ const LoginPage = () => {
             className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300 disabled:bg-gray-400"
             disabled={loading}
           >
-            {loading ? (
-              <BeatLoader size={10} color="white" />
-            ) : (
-              "Sign In"
-            )}
+            {loading ? <BeatLoader size={10} color="white" /> : "Sign In"}
           </button>
 
           {/* Error Message Display */}
