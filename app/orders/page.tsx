@@ -48,7 +48,6 @@ const page = () => {
     let data = JSON.parse(json_orders);
     setCartItems(data.orders);
     setOrder(data);
-    console.log(data);
   }, []);
 
   const onSubmit = async (data: any) => {
@@ -101,7 +100,7 @@ const page = () => {
       </motion.div>
     );
   }
-
+ 
   return (
     <div className="flex flex-col">
       <p className="text-2xl font-bold text-center my-4 text-cyan-800">
@@ -194,9 +193,10 @@ const page = () => {
           <Select
             errors={errors}
             label={"Order Type"}
-            name={"hospital_address"}
+            name={"order_type"}
             register={register}
             orderTypes={orderTypes}
+            // getValues={getValues}
           />
           <div className="flex justify-center">
             <button

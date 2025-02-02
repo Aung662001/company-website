@@ -79,10 +79,12 @@ export default function Home() {
         total = total + o.price;
       });
     setTotal(total);
-    setToLocal("monicare_hms_orders", {
-      orders: [...orders],
-      total_charge: total,
-    });
+    return total;
+    // setToLocal("monicare_hms_orders", {
+    //   orders: [...orders],
+    //   total_charge: total,
+    //   plan_id
+    // });
   };
   const setToLocal = (name: string, item: any) => {
     if (item) {
@@ -110,9 +112,13 @@ export default function Home() {
       }
       return o;
     });
-    console.log(new_orders);
     setOrders(new_orders);
-    calculateTotal(new_orders);
+    let total = calculateTotal(new_orders);
+    setToLocal("monicare_hms_orders", {
+      orders: [...new_orders],
+      total,
+      plan_id,
+    });
   };
   const changeModule = (e: ChangeEvent<HTMLSelectElement>) => {
     let click_category_id = e.target.value;
@@ -130,7 +136,12 @@ export default function Home() {
   const setOrdersConfirm = () => {
     if (orders) {
       setCartItems({ ...orders });
-      calculateTotal(orders);
+      let total = calculateTotal(orders);
+      setToLocal("monicare_hms_orders", {
+        orders,
+        total,
+        plan_id: selectedPlan.id,
+      });
       router.push("/orders");
     }
   };
@@ -144,6 +155,7 @@ export default function Home() {
       const data = JSON.parse(json);
       setOrders(data.orders);
       calculateTotal(data.orders);
+      setSelectedPlan(() => plans.find((p) => p.id == data.plan_id) as Plan);
     };
 
     fetchOrdersFromLocalStorage();
@@ -283,6 +295,7 @@ export default function Home() {
             <select
               className="px-6 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
               onChange={changePlan}
+              value={selectedPlan.id || 1}
             >
               {plans.map((p, i) => (
                 <option key={i} value={p.id}>
