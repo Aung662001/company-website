@@ -30,7 +30,6 @@ const Select: React.FC<SelectProps> = ({
         className={`${
           errors[name] ? "border-red-600" : "border-cyan-300"
         } border-2 h-9 px-6 py-1 focus:ring-2 focus:ring-blue-500`}
-        value={1}
       >
         {orderTypes.map((type, i) => (
           <option key={i} value={type.id}>

@@ -120,6 +120,10 @@ export default function Home() {
       total,
       plan_id,
     });
+    const planFromLocalStorage = plans.find((p) => p.id === plan_id);
+    if (planFromLocalStorage) {
+      setSelectedPlan(planFromLocalStorage);
+    }
   };
   const changeModule = (e: ChangeEvent<HTMLSelectElement>) => {
     let click_category_id = e.target.value;
@@ -300,8 +304,8 @@ export default function Home() {
             <select
               className="px-6 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
               onChange={changePlan}
-              value={selectedPlan?.id || 1}
               ref={planRef}
+              value={selectedPlan?.id || 1}
             >
               {plans.map((p, i) => (
                 <option key={i} value={p.id}>
