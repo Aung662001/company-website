@@ -71,6 +71,7 @@ const page = () => {
             name={"password"}
             label={"Password"}
             errors={errors}
+            type="password"
           />
           <button
             type="submit"
