@@ -1,47 +1,50 @@
-/* 
-Since the map was loaded on client side, 
-we need to make this component client rendered as well else error occurs
-Must contain Inforamions 
-1.Some width and height in container styles
-2.Map center
-3.Map zoom level
-4.Map options
-*/
 
 "use client";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { LatLngExpression, LatLngTuple } from "leaflet";
 
-//Map component Component from library
-import { GoogleMap } from "@react-google-maps/api";
+import "leaflet/dist/leaflet.css";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+import "leaflet-defaulticon-compatibility";
 
-//Map's styling
-export const defaultMapContainerStyle = {
-  width: "100%",
-  height: "80vh",
-  borderRadius: "15px 0px 0px 15px",
-};
-const defaultMapCenter = {
-  lat: 16.832005,
-  lng: 96.190731,
-};
-const defaultMapZoom = 18;
-const defaultMapOptions = {
-  zoomControl: true,
-  tilt: 0,
-  gestureHandling: "auto",
-  mapTypeId: "terrain",//roadmap /satellite /hybrid /terrain 
+interface MapProps {
+  posix: LatLngExpression | LatLngTuple;
+  zoom?: number;
+}
+
+const defaults = {
+  zoom: 18,
 };
 
-const MapComponent = () => {
+const Map = (Map: MapProps) => {
+  const { zoom = defaults.zoom, posix } = Map;
+
   return (
-    <div className="w-full">
-      <GoogleMap
-        mapContainerStyle={defaultMapContainerStyle}
-        center={defaultMapCenter}
-        zoom={defaultMapZoom}
-        options={defaultMapOptions}
-      ></GoogleMap>
-    </div>
+    <MapContainer
+      center={posix}
+      zoom={zoom}
+      scrollWheelZoom={false}
+      style={{ height: "inherit", width: "inherit" }}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <Marker position={posix} draggable={false}>
+        <Popup>
+          Monisoft Is Here!
+          <a
+            className="inline-flex items-center justify-center px-3 py-1 text-sm font-semibold text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105"
+            href="https://www.google.com/maps/search/16.832005,+96.190731?entry=tts&g_ep=EgoyMDI1MDEyOS4xIPu8ASoASAFQAw%3D%3D"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            🛣️ Get Direction
+          </a>
+        </Popup>
+      </Marker>
+    </MapContainer>
   );
 };
 
-export { MapComponent };
+export default Map;

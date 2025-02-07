@@ -1,8 +1,14 @@
 "use client"; // Required for Framer Motion animations in Next.js
 
 import { motion } from "framer-motion";
-import { MapProvider } from "../providers/map_provider";
-import { MapComponent } from "@/components/Map";
+import dynamic from "next/dynamic";
+const MapComponent = dynamic(
+  () => import('@/components/Map'), 
+  { 
+    ssr: false, // Disable SSR for this component
+    loading: () => <p>Loading map...</p> // Optional loading component
+  }
+);
 
 export default function ContactPage() {
   return (
@@ -87,22 +93,10 @@ export default function ContactPage() {
             </motion.div>
           </div>
         </div>
-        <div className="mx-10 my-14">
-          <div className="mx-10 my-14 flex justify-center">
-            <a
-              className="inline-flex items-center justify-center px-6 py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105"
-              href="https://www.google.com/maps/search/16.832005,+96.190731?entry=tts&g_ep=EgoyMDI1MDEyOS4xIPu8ASoASAFQAw%3D%3D"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              🛣️ Get Direction
-            </a>
+        <div className="mx-10 my-14 pl-6">
+          <div className="bg-white-700 mx-auto my-5 w-[98%] h-[480px]">
+            <MapComponent posix={[16.832005, 96.190731]} />
           </div>
-          <MapProvider>
-            <main>
-              <MapComponent />
-            </main>
-          </MapProvider>
         </div>
       </section>
     </div>
