@@ -1,0 +1,26 @@
+[
+    {
+        "en":"Orders are accepted 24 hours a day, but will only be replied to during office hours.",
+        "mm":"အော်ဒါများကို ၂၄ နာရီ လက်ခံသော်လည်း ရုံးချိန်အတွင်းသာ အကြောင်းပြန်ပါမည်။"
+    },
+    {
+        "en":"For demo orders, you will be notified within a week of placing the order.",
+        "mm":"ဒီမိုအော်ဒါများကို တစ်ပတ်အတွင်းအကြောင်းပြန်ကြားပေးပါမည်။"
+    },
+    {
+        "en":"For permanent orders, we will notify you within 2 days after the order is sent.",
+        "mm":"Permanent အော်ဒါများကို ၂ ရက်အတွင်းအကြောင်းပြန်ကြားပေးပါမည်။"
+    },
+    {
+        "en":" Please submit only one order per hospital, and if you submit more than once, only the last order will be approved.",
+        "mm":" ဆေးရုံတစ်ရုံအတွက်အော်ဒါတစ်ခုကိုသာပေးပို့စေလိုပါသည်။ တစ်ခုထက်ပို၍ပေးပို့သည့်အော်ဒါများရှိပါက နောက်ဆုံးပေးပို့သည့်အော်ဒါကိုသာအတည်ပြုလက်ခံပေးပါမည်။"
+    },
+    {
+        "en":" Orders sent will only be confirmed by phone, so please only fill in phone numbers that you can contact.",
+        "mm":" အော်ဒါများကို ဖုန်းဆက်၍သာပြန်လည်အကြောင်းပြန်ကြားပေးမည် ဖြစ်သောကြောင့် ဆက်သွယ်၍ရသောဖုန်းနံပါတ်များကို သာ နံပါတ်မမှားယွင်းအောင် ဂရုတစိုက်ဖြည့်သွင်းကြစေလိုပါသည်။"
+    },
+    {
+        "en":" Only orders placed before the change in the promotional schedule will be eligible to enjoy the promotion.",
+        "mm":" ပရိုမိုးရှင်းမပိတ်သိမ်းမှီ တင်သွင်းသည့်အော်ဒါများ သာ ပရိုမိုးရှင်းအစီအစဉ်များအတိုင်း ခံစားခွင့်ရရှိ မည် ဖြစ်ပါသည်။"
+    }
+]

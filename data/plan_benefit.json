@@ -1,0 +1,32 @@
+[
+    {
+        "name":"One Year Plan",
+        "benefits":[
+            "Cloud Server (1 Year Free)",
+            "Free Sub Domain Name",
+            "Free Traning",
+            "1 Month Free Service",
+            "5% Cash Back"
+        ]
+    },
+    {
+        "name":"Two Year Plan",
+        "benefits":[
+            "Cloud Server (1 Year Free)",
+            "Free Sub Domain Name",
+            "Free Traning",
+            "1 Month Free Service",
+            "1 Month Cash Back"
+        ]
+    },
+    {
+        "name":"Three Year Plan",
+        "benefits":[
+            "Cloud Server (1 Year Free)",
+            "Free Sub Domain Name",
+            "Free Traning",
+            "2 Month Free Service",
+            "2 Month Cash Back"
+        ]
+    }
+]

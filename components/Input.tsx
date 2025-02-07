@@ -11,6 +11,7 @@ interface UseFormTypes<T extends FieldValues> {
   label: string;
   rule?: object;
   type?: string;
+  icon?:string|null;
 }
 
 const Input = <T extends object>({
@@ -20,16 +21,17 @@ const Input = <T extends object>({
   label,
   rule = {},
   type = "text",
+  icon=null,
 }: UseFormTypes<T>) => {
   return (
     <div className="flex flex-col gap-1 text-cyan-600">
-      <label>{label}</label>
+      <label>{icon && icon}{label}</label>
       <input
         type={type}
         {...register(name as string as Path<T>, rule)}
         className={`${
-          (errors[name] as any) ? "border-red-400" : "border-cyan-300"
-        } border-2 h-9 pl-2`}
+          (errors[name] as any) ? "border-red-400" : "border-cyan-100"
+        } border-2 h-9 pl-2 outline-none`}
       />
       <p className="text-sm italic text-red-600">
         {errors[name]?.message as string}

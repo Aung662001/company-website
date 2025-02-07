@@ -70,6 +70,7 @@ export default function Home() {
         orders: new_order_obj,
         total: total,
         plan_id: selectedPlan.id,
+        plan:selectedPlan
       });
       return new_order_obj;
     });
@@ -101,6 +102,7 @@ export default function Home() {
   };
   const changePlan = (event: ChangeEvent<HTMLSelectElement>) => {
     let plan_id = parseInt(event.target.value);
+    let plan = plans.find(p => p.id == plan_id);
     let new_orders = orders?.map((o) => {
       switch (plan_id) {
         case 1:
@@ -124,6 +126,7 @@ export default function Home() {
       orders: [...new_orders],
       total,
       plan_id,
+      plan:plan
     });
     const planFromLocalStorage = plans.find((p) => p.id === plan_id);
     if (planFromLocalStorage) {
@@ -142,7 +145,7 @@ export default function Home() {
     let filtered_order = orders?.filter((o) => o.id !== order.id);
     setOrders(filtered_order);
     let total = calculateTotal(filtered_order);
-    setToLocal("monicare_hms_orders",{orders:filtered_order,total,plan_id:selectedPlan.id})
+    setToLocal("monicare_hms_orders",{orders:filtered_order,total,plan_id:selectedPlan.id,plan:selectedPlan})
   };
   const setOrdersConfirm = () => {
     if (orders) {
@@ -152,6 +155,7 @@ export default function Home() {
         orders,
         total,
         plan_id: selectedPlan.id,
+        plan:selectedPlan
       });
       router.push("/orders");
     }
@@ -326,7 +330,7 @@ export default function Home() {
             {orders?.map((order, i) => (
               <MotionDiv key={i}>
                 <div className="flex flex-row justify-between items-center p-4">
-                  <p className="text-lg text-gray-700">{order.module_name}</p>
+                  <p className="text-lg text-gray-700">{order.module_name} ×</p>
                   <p className="text-lg font-medium text-gray-900">
                     {order.price} USD{" "}
                     <FontAwesomeIcon

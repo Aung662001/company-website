@@ -1,6 +1,8 @@
 "use client"; // Required for Framer Motion animations in Next.js
 
 import { motion } from "framer-motion";
+import { MapProvider } from "../providers/map_provider";
+import { MapComponent } from "@/components/Map";
 
 export default function ContactPage() {
   return (
@@ -63,7 +65,7 @@ export default function ContactPage() {
               <div className="text-4xl text-blue-500 mb-4">✉️</div>
               <h3 className="text-xl font-bold text-blue-900 mb-2">Email</h3>
               <p className="text-gray-600">yewinhtut85@gmail.com</p>
-              <p className="text-gray-600">www.monisoft.com</p>
+              {/* <p className="text-gray-600">www.monisoft.com</p> */}
             </motion.div>
 
             {/* Address */}
@@ -77,14 +79,30 @@ export default function ContactPage() {
               <div className="text-4xl text-blue-500 mb-4">📍</div>
               <h3 className="text-xl font-bold text-blue-900 mb-2">Address</h3>
               <p className="text-gray-600">
-                Conor Of Thirikhaymar Street & Zawana Street
+                No.2, First Floor, Corner Of Zawana Street And Thiri Khay Mar
+                Street,
                 <br />
-                Thingyankyun
-                <br />
-                Yangon
+                Zawana Ward,Thingangyun Township, Yangon, Myanmar
               </p>
             </motion.div>
           </div>
+        </div>
+        <div className="mx-10 my-14">
+          <div className="mx-10 my-14 flex justify-center">
+            <a
+              className="inline-flex items-center justify-center px-6 py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105"
+              href="https://www.google.com/maps/search/16.832005,+96.190731?entry=tts&g_ep=EgoyMDI1MDEyOS4xIPu8ASoASAFQAw%3D%3D"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              🛣️ Get Direction
+            </a>
+          </div>
+          <MapProvider>
+            <main>
+              <MapComponent />
+            </main>
+          </MapProvider>
         </div>
       </section>
     </div>

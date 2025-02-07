@@ -9,11 +9,14 @@ import { Order } from "../products/page";
 import Divider from "@/components/Divider";
 import Loading from "@/components/loading";
 import { motion } from "framer-motion";
+import apperals from "@/data/apperals.json";
 
 interface FinalOrder {
   orders: Order[];
   total: number;
+  plan: { name: string };
 }
+
 const defaultValues = {
   hospital_name: "",
   contact_person_name: "",
@@ -23,21 +26,22 @@ const defaultValues = {
   order_type: { id: 1, name: "Demo Order" },
 };
 
-const page = () => {
+const Page = () => {
   const { cartItems, setCartItems, totalCharge } = useContext(CartContext);
   const [orderTypes] = useState([
     { id: 1, name: "Demo Order" },
-    { id: 1, name: "Permanent Order" },
+    { id: 2, name: "Permanent Order" },
   ]);
   const [order, setOrder] = useState<FinalOrder>();
   const [loading, setLoading] = useState(false);
+  const [agreeterm, setAgreeTerm] = useState(false);
   const {
     register,
     setValue,
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<OrderFormData>({ defaultValues: defaultValues });
+  } = useForm<OrderFormData>({ defaultValues });
 
   useEffect(() => {
     let json_orders =
@@ -51,7 +55,6 @@ const page = () => {
   }, []);
 
   const onSubmit = async (data: any) => {
-    // we need to add total charges to data
     setLoading(true);
     data = {
       ...data,
@@ -67,7 +70,6 @@ const page = () => {
         },
         body: JSON.stringify(data),
       });
-
       const response = await response_json.json();
       console.log(response.message || "Email sent successfully");
     } catch (error) {
@@ -76,57 +78,79 @@ const page = () => {
       setLoading(false);
     }
   };
+
   if (loading) {
     return <Loading loading={loading} />;
   }
-  if (cartItems.length == 0) {
+
+  if (cartItems.length === 0) {
     return (
       <motion.div
-        initial={{
-          opacity: 0,
-          y: 40,
-        }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.6 }}
         className="flex flex-col justify-center items-center h-screen gap-4"
       >
         <p className="w-[70%] text-center text-xl font-bold text-slate-600">
-          Please chose your desired module that will need in you hospital and
-          come back here to make order.
+          Please choose your desired module that will be needed in your hospital
+          and come back here to make an order.
         </p>
-        <a href="/products" className=" text-blue-600">
+        <a href="/products" className="text-blue-600 hover:underline">
           Go To Products
         </a>
       </motion.div>
     );
   }
- 
+
   return (
-    <div className="flex flex-col">
-      <p className="text-2xl font-bold text-center my-4 text-cyan-800">
+    <div className="flex flex-col p-6 bg-gray-50 min-h-screen">
+      <motion.h1
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-3xl font-bold text-center my-6 text-cyan-800"
+      >
         Hospital Management System (HMS) Order Form
-      </p>
-      <div className="grid grid-cols-10 mx-10 gap-4">
-        <div className="lg:col-span-4 col-span-10  bg-cyan-200 shadow-lg pb-3">
-          <p className="text-xl font-bold text-center">Your Order List</p>
-          {cartItems &&
-            cartItems.length > 0 &&
-            cartItems?.map((item, i) => (
-              <div key={i} className="flex flex-row justify-between my-4 mx-4">
-                <p className="text-blue-600">{item.module_name}</p>
-                <p className="text-blue-800">{item.price} USD</p>
-              </div>
-            ))}
+      </motion.h1>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        {/* Order Summary */}
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="bg-yellow-50 p-6 rounded-lg shadow-lg"
+        >
+          <h2 className="text-xl font-bold text-center mb-4">Your Order List</h2>
           <Divider />
-          <div className="flex flex-row justify-between my-4 mx-4">
+          {cartItems.map((item, i) => (
+            <div key={i} className="flex justify-between my-4">
+              <p className="text-blue-600 text-sm">
+                {i + 1}. {item.module_name}
+                <br />({item.module_name_myanmar})
+              </p>
+              <p className="text-blue-800 text-sm">
+                {item.price} USD / {order?.plan?.name}
+              </p>
+            </div>
+          ))}
+          <Divider />
+          <div className="flex justify-between my-4">
             <p className="text-xl text-blue-900">Total Charge</p>
-            <p className="text-xl text-blue-900">{order?.total} USD</p>
+            <p className="text-xl text-blue-900">
+              {order?.total} USD / {order?.plan?.name}
+            </p>
           </div>
           <Divider />
-        </div>
-        <form
+        </motion.div>
+
+        {/* Order Form */}
+        <motion.form
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
           onSubmit={handleSubmit(onSubmit)}
-          className="lg:col-span-6 bg-cyan-200 p-10 shadow-lg col-span-10 gap-3"
+          className="bg-white p-8 rounded-lg shadow-lg space-y-6"
         >
           <Input<OrderFormData>
             rule={{
@@ -139,7 +163,8 @@ const page = () => {
             }}
             register={register}
             name={"hospital_name"}
-            label={"Hospital Name"}
+            label={"Hospital Name (ဆေးရုံအမည်)"}
+            icon={"🏩"}
             errors={errors}
           />
           <Input<OrderFormData>
@@ -153,7 +178,8 @@ const page = () => {
             }}
             register={register}
             name={"contact_person_name"}
-            label={"Contact Person Name"}
+            label={"Contact Person Name (ဆက်သွယ်ရမည့်သူ)"}
+            icon={"🧑‍⚕️"}
             errors={errors}
           />
           <Input<OrderFormData>
@@ -170,16 +196,13 @@ const page = () => {
             }}
             register={register}
             name={"phone"}
-            label={"Phone Number"}
+            label={"Phone (ဆက်သွယ်ရန် ဖုန်းနံပါတ်)"}
+            icon={"📱"}
             errors={errors}
           />
           <Input<OrderFormData>
             rule={{
               required: "Email field is required.",
-              minLength: {
-                value: 5,
-                message: "Email must be at least 5 characters long.",
-              },
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                 message: "Invalid email address.",
@@ -187,30 +210,65 @@ const page = () => {
             }}
             register={register}
             name={"email"}
-            label={"Email"}
+            label={"Email (အီးမေးလ်)"}
+            icon={"📧"}
             errors={errors}
           />
           <Select
             errors={errors}
-            label={"Order Type"}
+            label={"Order Type (အော်ဒါ ပုံစံ)"}
             name={"order_type"}
             register={register}
             orderTypes={orderTypes}
-            // getValues={getValues}
+            icon={"📝"}
           />
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="text-xl text-slate-300 bg-blue-500 px-3 py-2 flex w-full
-          rounded-sm shadow-lg hover:shadow-xl hover:scale-[1.01] duration-500 ease-in "
-            >
-              Place Order
-            </button>
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="aggree_term_check"
+              checked={agreeterm}
+              onChange={() => setAgreeTerm(!agreeterm)}
+              className="w-5 h-5 rounded border-gray-300"
+            />
+            <label htmlFor="aggree_term_check" className="text-sm text-gray-700">
+              I have read the apperals carefully.<br />
+              ပန်ကြားချက်များကို သေချာဖတ်ပြီးပါပြီ။
+            </label>
           </div>
-        </form>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            type="submit"
+            disabled={!agreeterm}
+            className={`w-full py-3 text-lg font-semibold text-white rounded-lg transition-all duration-300 ${
+              agreeterm ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-300 cursor-not-allowed"
+            }`}
+          >
+            📤 Submit Order
+          </motion.button>
+        </motion.form>
+
+        {/* Apperals Section */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="bg-green-50 p-6 rounded-lg shadow-lg"
+        >
+          <h2 className="text-xl font-bold text-center mb-4">
+            A Request To Our Valued Customers (မေတ္တာရပ်ခံချက်)
+          </h2>
+          <Divider />
+          {apperals.map((apperal, i) => (
+            <div key={i} className="my-4">
+              <p className="text-green-700">✅ {apperal.en}</p>
+              <p className="text-green-600">{apperal.mm}</p>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </div>
   );
 };
 
-export default page;
+export default Page;

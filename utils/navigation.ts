@@ -1,8 +1,13 @@
 export const navItems = [
   {
-    name: "Features",
+    name: "Home",
     icon: "",
     href:"/",
+  },
+  {
+    name: "Features",
+    icon: "",
+    href:"/features",
   },
   {
     name: "Products",
