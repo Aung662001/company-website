@@ -1,8 +1,5 @@
 "use client";
 import { Lobster } from "next/font/google";
-import benefits from "@/data/benefit.json";
-import company_data from "@/data/company_data.json";
-import MotionDiv from "@/components/MotionDiv";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import doctorimg from "@/public/msbannerdt.jpg";
@@ -89,25 +86,29 @@ export default function Home() {
         </motion.div>
       </div>
       <div className="flex flex-row ">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-8 gap-10 ">
-          {plans.map((plan, i) => {
-            return (
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: i * 0.1 }}
-                key={i}
-                className={`py-4 px-4 rounded-md bg-blue-${i + 3}00 text-white cursor-pointer`}
-              >
-                <h3 className="text-2xl text-center my-3">{plan.name}</h3>
-                <div className="flex flex-col gap-2">
-                  {plan.benefits.map((b, i) => (
-                    <p key={i}>❇️ {b}</p>
-                  ))}
-                </div>
-              </motion.div>
-            );
-          })}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-8 gap-10">
+          {plans.map((plan, index) => (
+            <motion.div
+              key={plan.name} // Use a unique identifier from the plan object instead of index
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: index * 0.1 }}
+              className={`py-4 px-4 rounded-md ${
+                index === 0
+                  ? "bg-blue-300"
+                  : index === 1
+                  ? "bg-blue-400"
+                  : "bg-blue-500"
+              } text-white cursor-pointer`}
+            >
+              <h3 className="text-2xl text-center my-3">{plan.name}</h3>
+              <div className="flex flex-col gap-2">
+                {plan.benefits.map((benefit, i) => (
+                  <p key={i}>❇️ {benefit}</p>
+                ))}
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </div>

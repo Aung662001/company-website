@@ -1,8 +1,6 @@
 import prisma, { createOrder } from "@/lib/db";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import * as dotenv from "dotenv";
-dotenv.config();
 
 export async function POST(request: Request) {
   const data = await request.json();
